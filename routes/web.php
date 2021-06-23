@@ -14,6 +14,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\StatusUjiController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\SertifikatController;
 
 
 Route::get('/', [LoginController::class, 'index']);
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::resource('pembayaran', PembayaranController::class);
         Route::resource('status_uji', StatusUjiController::class);
         Route::resource('hasil_uji', HasilUjiController::class);
+        Route::resource('sertifikat', SertifikatController::class);
 
         Route::get('/customer', [KustomerController::class, 'index']);
         Route::get('/lap_aduan', [LaporanController::class, 'aduan']);
