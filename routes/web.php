@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::resource('status_uji', StatusUjiController::class);
         Route::resource('hasil_uji', HasilUjiController::class);
         Route::resource('sertifikat', SertifikatController::class);
+        Route::get('sertifikat/{id}/sertifikat', [SertifikatController::class,'sertifikat']);
 
         Route::get('/customer', [KustomerController::class, 'index']);
         Route::get('/lap_aduan', [LaporanController::class, 'aduan']);

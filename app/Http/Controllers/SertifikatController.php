@@ -6,6 +6,7 @@ use App\Models\HasilUji;
 use App\Models\StatusUji;
 use App\Models\Sertifikat;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class SertifikatController extends Controller
 {
@@ -17,8 +18,8 @@ class SertifikatController extends Controller
     
     public function create()
     {
-        $statusuji = StatusUji::get();
-        return view('admin.sertifikat.create',compact('statusuji'));
+        $hasiluji = HasilUji::get();
+        return view('admin.sertifikat.create',compact('hasiluji'));
     }
     
     public function store(Request $req)
@@ -36,13 +37,13 @@ class SertifikatController extends Controller
     public function edit($id)
     {
         $data = Sertifikat::find($id);
-        $statusuji = StatusUji::get();
-        return view('admin.sertifikat.edit',compact('data','statusuji'));
+        $hasiluji = HasilUji::get();
+        return view('admin.sertifikat.edit',compact('data','hasiluji'));
     }
     
     public function update(Request $req, $id)
     {
-        $pelanggan_id = StatusUji::find($req->status_uji_id)->pelanggan_id;
+        $pelanggan_id = HasilUji::find($req->hasil_uji_id)->pelanggan_id;
         $attr = $req->all();
         $attr['pelanggan_id'] = $pelanggan_id;
 
@@ -56,5 +57,12 @@ class SertifikatController extends Controller
         Sertifikat::find($id)->delete();
         toastr()->success('Berhasil Di Hapus');
         return back();
+    }
+
+    public function sertifikat($id)
+    {
+        $data = Sertifikat::find($id);
+        $pdf = PDF::loadView('admin.sertifikat.sertifikat',compact('data'))->setPaper('legal','landscape');
+        return $pdf->stream();
     }
 }
